@@ -6,7 +6,7 @@ export default function LandingPage() {
    <div className="flex flex-col min-h-screen">
   {/* Header */}
   <header className="w-full border-b bg-white">
-    <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-16">
+    <div className="max-w-6xl mx-auto px-6 flex items-center justify-center h-16">
       <Link href="/" className="text-xl font-bold">
         QR<span className="text-primary">Toolkit</span>
       </Link>
