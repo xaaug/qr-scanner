@@ -17,12 +17,19 @@ export default function ScannerPage() {
     try {
       const cameras = await Html5Qrcode.getCameras();
       if (cameras && cameras.length) {
-        const camId = cameras[0].id;
+        // Prefer the back camera
+        const backCamera = cameras.find(
+          (cam) =>
+            cam.label.toLowerCase().includes("back") ||
+            cam.label.toLowerCase().includes("rear")
+        );
+        const camId = backCamera ? backCamera.id : cameras[0].id;
+  
         setCameraId(camId);
-
+  
         const scanner = new Html5Qrcode("qr-reader");
         scannerRef.current = scanner;
-
+  
         await scanner.start(
           camId,
           { fps: 10, qrbox: { width: 250, height: 250 } },
@@ -41,6 +48,7 @@ export default function ScannerPage() {
       toast.error("⚠️ Failed to start scanner");
     }
   };
+  
 
   // ✅ Stop scanning
   const stopScanner = async () => {
@@ -59,9 +67,7 @@ export default function ScannerPage() {
     }
   };
   
-  
-  // ✅ Toggle flashlight if supported
-  // Extend MediaTrackConstraintSet with torch support
+   
   interface TorchConstraints extends MediaTrackConstraintSet {
     advanced?: ({ torch?: boolean } & MediaTrackConstraintSet)[];
   }
